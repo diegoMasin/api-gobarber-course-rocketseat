@@ -47,7 +47,8 @@
       }
     ],
     "no-use-before-define": "off",
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    // "class-methods-use-this": "off" // Se houver erros de This nas migrations, por hora não houve.
   },
   "settings": {
     "import/resolver": {
