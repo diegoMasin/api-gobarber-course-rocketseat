@@ -18,6 +18,7 @@ usersRouter.post('/', async (request, response) => {
 
     const user = await createUser.execute({ name, email, password });
 
+    // Dá problema com o lint do typescript, buscar melhor forma
     delete user.password;
 
     return response.json(user);
