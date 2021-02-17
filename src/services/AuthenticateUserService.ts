@@ -3,6 +3,7 @@ import { compare } from 'bcryptjs';
 import { sign, verify } from 'jsonwebtoken';
 
 import User from '../models/User';
+import { msg_error_auth_email_password } from '../configs/messages';
 
 interface Request {
   email: string;
@@ -20,15 +21,14 @@ class AuthenticateUserService {
 
     const user = await usersRepository.findOne({ where: { email } });
 
-    const msgError = 'A combinação de email e senha não existe.';
     if (!user) {
-      throw new Error(msgError);
+      throw new Error(msg_error_auth_email_password);
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw new Error(msgError);
+      throw new Error(msg_error_auth_email_password);
     }
     // sign({payload}, secret_key, {configuracoes_do_token})
     // Colocar essa secret_key depois em um arquivo de configuração
