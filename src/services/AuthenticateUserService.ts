@@ -1,8 +1,9 @@
 import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
-import { sign, verify } from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 
 import User from '../models/User';
+import authConfig from '../configs/auth';
 import { msg_error_auth_email_password } from '../configs/messages';
 
 interface Request {
@@ -32,10 +33,11 @@ class AuthenticateUserService {
     }
     // sign({payload}, secret_key, {configuracoes_do_token})
     // Colocar essa secret_key depois em um arquivo de configuração
-    const token = sign({}, 'd85425fcada3db121a6a9e64c0ab01bc', {
+    const { secret, expiresIn } = authConfig.jwt;
+    const token = sign({}, secret, {
       subject: user.id,
       // se somente se(em raros casos) necessário manter o usuário logado para sempre, pesquisar métodos de refresh token
-      expiresIn: '1d',
+      expiresIn: expiresIn,
     });
 
     return { user, token };
